@@ -1,66 +1,49 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class WaveSpawner : MonoBehaviour {
 
-	public static int EnemiesAlive = 0;
+	public List<Wave> waves;
 
-	public Wave[] waves;
+	private Transform spawnPoint;
+  
+    private GameManager gameManager;
 
-	public Transform spawnPoint;
+	public int waveIndex = 0;
 
-	public float timeBetweenWaves = 5f;
-	private float countdown = 2f;
+    public bool isSpawning = false;    
 
-	public Text waveCountdownText;
+    private void Start()
+    {
+        spawnPoint = this.transform;
+        gameManager = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<GameManager>();
+    }
 
-	public GameManager gameManager;
-
-	private int waveIndex = 0;
-
-	void Update ()
+    void Update ()
 	{
-		if (EnemiesAlive > 0)
-		{
-			return;
-		}
 
-		if (waveIndex == waves.Length)
-		{
-			gameManager.WinLevel();
-			this.enabled = false;
-		}
-
-		if (countdown <= 0f)
-		{
-			StartCoroutine(SpawnWave());
-			countdown = timeBetweenWaves;
-			return;
-		}
-
-		countdown -= Time.deltaTime;
-
-		countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
-
-		waveCountdownText.text = string.Format("{0:00.00}", countdown);
 	}
 
-	IEnumerator SpawnWave ()
-	{
-		PlayerStats.Rounds++;
+    public void AddEntity(Wave wave)
+    {
+        waves.Add(wave);
+    }
 
-		Wave wave = waves[waveIndex];
+	public IEnumerator SpawnWave ()
+	{		       
+        for (int y = 0; y < waves.Count;y++)
+        {
+            Wave wave = waves[y];
 
-		EnemiesAlive = wave.count;
-
-		for (int i = 0; i < wave.count; i++)
-		{
-			SpawnEnemy(wave.enemy);
-			yield return new WaitForSeconds(1f / wave.rate);
-		}
-
-		waveIndex++;
+            for (int i = 0; i < wave.count; i++)
+            {
+                SpawnEnemy(wave.enemy);
+                yield return new WaitForSeconds(1f / wave.rate);
+            }
+        }        		
+        isSpawning = false;
 	}
 
 	void SpawnEnemy (GameObject enemy)

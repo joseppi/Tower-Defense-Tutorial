@@ -10,11 +10,14 @@ public class Bullet : MonoBehaviour {
 
 	public float explosionRadius = 0f;
 	public GameObject impactEffect;
+    public bool isEnemy = false;
 	
 	public void Seek (Transform _target)
 	{
 		target = _target;
 	}
+
+    
 
 	// Update is called once per frame
 	void Update () {
@@ -40,7 +43,7 @@ public class Bullet : MonoBehaviour {
 	}
 
 	void HitTarget ()
-	{
+	{        
 		GameObject effectIns = (GameObject)Instantiate(impactEffect, transform.position, transform.rotation);
 		Destroy(effectIns, 5f);
 
@@ -48,19 +51,26 @@ public class Bullet : MonoBehaviour {
 		{
 			Explode();
 		} else
-		{
-			Damage(target);
+		{            
+            Damage(target);
 		}
 
 		Destroy(gameObject);
 	}
 
 	void Explode ()
-	{
-		Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+	{        
+        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
 		foreach (Collider collider in colliders)
-		{
-			if (collider.tag == "Enemy")
+		{            
+            if (isEnemy)
+            {
+                if (collider.gameObject.tag == "Friendly")
+                {
+                    Damage(collider.transform);
+                }
+            }
+			else if (collider.gameObject.tag == "Enemy")
 			{
 				Damage(collider.transform);
 			}
@@ -69,7 +79,7 @@ public class Bullet : MonoBehaviour {
 
 	void Damage (Transform enemy)
 	{
-		Enemy e = enemy.GetComponent<Enemy>();
+		Unit e = enemy.GetComponent<Unit>();
 
 		if (e != null)
 		{
