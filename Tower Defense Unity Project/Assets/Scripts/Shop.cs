@@ -39,9 +39,9 @@ public class Shop : MonoBehaviour {
     private void FixedUpdate()
     {        
 
-        if (Input.GetKey(KeyCode.Alpha1)) { buildManager.SelectBuildingToBuild(standardTurret); }
-        if (Input.GetKey(KeyCode.Alpha2)) { buildManager.SelectBuildingToBuild(missileLauncher); }
-        if (Input.GetKey(KeyCode.Alpha3)) { buildManager.SelectBuildingToBuild(laserBeamer); }
+        //if (Input.GetKey(KeyCode.Alpha1)) { buildManager.SelectBuildingToBuild(standardTurret); }
+        //if (Input.GetKey(KeyCode.Alpha2)) { buildManager.SelectBuildingToBuild(missileLauncher); }
+        //if (Input.GetKey(KeyCode.Alpha3)) { buildManager.SelectBuildingToBuild(laserBeamer); }
         if (Input.GetKey(KeyCode.Alpha4)) { buildManager.SelectBuildingToBuild(farmBuilding); }
         if (Input.GetKey(KeyCode.Alpha5)) { buildManager.SelectBuildingToBuild(blueBarracksBuilding); }
         if (Input.GetKey(KeyCode.Alpha6)) { buildManager.SelectBuildingToBuild(redBarracksBuilding); }

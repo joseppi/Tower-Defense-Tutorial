@@ -10,7 +10,7 @@ public class StatsPlayer : MonoBehaviour {
 	public int startLives = 5;
 
 	public static int Rounds;
-    public static int UnitsAlive;
+    public static int UnitsAlive;   
 
 	void Start ()
 	{
@@ -21,7 +21,7 @@ public class StatsPlayer : MonoBehaviour {
 	}
 
     private void Update()
-    {
+    {        
         InvokeRepeating("UpdateUnitsAlive", 0f, 0.5f); //This function should be in GameMaster Insteads
     }
 

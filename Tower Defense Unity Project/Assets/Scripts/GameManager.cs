@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
     public float timeBetweenWaves = 5f;
     GameObject[] spawners;
     int currentRound = -1;
+    public static float totalMatchTime = 0;
 
     void Start ()
 	{
@@ -35,6 +36,8 @@ public class GameManager : MonoBehaviour {
         {
             WinLevel();
         }
+
+        totalMatchTime += Time.deltaTime;
 
         if (currentRound != StatsPlayer.Rounds && countdown <= .0f)
         {
@@ -91,7 +94,7 @@ public class GameManager : MonoBehaviour {
 	public void WinLevel ()
 	{
 		GameIsOver = true;
-		completeLevelUI.SetActive(true);
+		completeLevelUI.SetActive(true);        
 	}
 
 }

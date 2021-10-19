@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyActions : MonoBehaviour
+public class Action : MonoBehaviour
 {
 
-    public static List<EnemyActions> actions;
+    public static List<Action> actions;
 
-    public enum Actions
+    public enum ActionType
     {
         Undefined,
         BarracksBlue,
@@ -20,17 +20,18 @@ public class EnemyActions : MonoBehaviour
     }
 
     public Node node;    
-    public Actions typeAction = Actions.Undefined;
+    public ActionType typeAction = ActionType.Undefined;
+    public bool isConstructed = false;
 
-    public EnemyActions(Node node, Actions action)
+    public Action(Node node, ActionType action)
     {
         this.node = node;
         this.typeAction = action;
     }
 
-    public void AddAction(Node node, Actions action)
+    public void AddAction(Node node, ActionType action)
     {
-        actions.Add(new EnemyActions(node, action));        
+        actions.Add(new Action(node, action));        
     }
 
 }

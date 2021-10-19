@@ -29,53 +29,61 @@ public class Turret : MonoBehaviour {
 
 	[Header("Unity Setup Fields")]
 
-	public string enemyTag = "Enemy";
+	public string targetTag = "Enemy";
 
 	public Transform partToRotate;
 	public float turnSpeed = 10f;
 
 	public Transform firePoint;
 
-	// Use this for initialization
-	void Start () {
+    public GameObject[] enemies;
+
+    // Use this for initialization
+    void Start () {
 		InvokeRepeating("UpdateTarget", 0f, 0.1f);
 	}
 	
 	void UpdateTarget ()
 	{
-		GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+        enemies = GameObject.FindGameObjectsWithTag(targetTag);
 		float shortestDistance = Mathf.Infinity;
-		GameObject nearestEnemy = null;
+        float firstEnemyInRange = Mathf.Infinity;
+		GameObject targetEnemyGO = null;
 		foreach (GameObject enemy in enemies)
-		{
+		{            
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position); //Get closes enemy
-            if (!useLaser)
+
+            if (useLaser && distanceToEnemy < range) //Lasers get first enemy in range
             {
-                
-                if (distanceToEnemy < shortestDistance)
-                {
-                    shortestDistance = distanceToEnemy;
-                    nearestEnemy = enemy;
-                }
+                firstEnemyInRange = distanceToEnemy;
+                targetEnemyGO = enemy;
+                break;
             }
-            else if (useLaser && nearestEnemy == null) //Target first Enemy
-            {
+            else if (distanceToEnemy < shortestDistance) //Turrets always aim for closest enemy
+            {                                    
                 shortestDistance = distanceToEnemy;
-                nearestEnemy = enemy;
-            }
+                targetEnemyGO = enemy;
+            }         
 		}
 
-		if (nearestEnemy != null && shortestDistance <= range)
+		if (targetEnemyGO != null)
 		{
-
-			target = nearestEnemy.transform;
-			targetEnemy = nearestEnemy.GetComponent<Unit>();
+            if (shortestDistance <= range)
+            {
+                target = targetEnemyGO.transform;
+                targetEnemy = targetEnemyGO.GetComponent<Unit>();
+            }
+            else if (useLaser && firstEnemyInRange <= range)
+            {
+                target = targetEnemyGO.transform;
+                targetEnemy = targetEnemyGO.GetComponent<Unit>();
+            }
+			
 		}
         else
 		{
-			target = null;
+            target = null;            					
 		}
-
 	}
 
 	// Update is called once per frame
