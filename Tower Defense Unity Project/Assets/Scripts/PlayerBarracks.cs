@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerBarracks : MonoBehaviour
 {
     GameObject[] spawners;
-    public Wave farmWave;
+    public Wave farmWave;    
 
     public void AddFriendlies()
     {

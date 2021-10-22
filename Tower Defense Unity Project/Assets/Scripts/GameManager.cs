@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
 		GameIsOver = false;
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
         countdown = timeBetweenWaves;
+        Time.timeScale = 4.0f;
     }
 
 	// Update is called once per frame
@@ -45,12 +46,15 @@ public class GameManager : MonoBehaviour {
             for(int i = 0; i < enemyBarracks.Length; i++)
             {
                 enemyBarracks[i].GetComponent<EnemyBarracks>().AddEnemies();
+                
             }
 
-            GameObject[] playerFarms = GameObject.FindGameObjectsWithTag("PlayerBarracks");
-            for (int i = 0; i < playerFarms.Length; i++)
+            GameObject[] playerBarracks = GameObject.FindGameObjectsWithTag("PlayerBarracks");
+            for (int i = 0; i < playerBarracks.Length; i++)
             {
-                playerFarms[i].GetComponent<PlayerBarracks>().AddFriendlies();
+                playerBarracks[i].GetComponent<PlayerBarracks>().farmWave.rate += 0.05f;
+                playerBarracks[i].GetComponent<PlayerBarracks>().AddFriendlies();
+                
             }
             currentRound = StatsPlayer.Rounds;
         }
@@ -75,7 +79,7 @@ public class GameManager : MonoBehaviour {
                     it_Spawner.isSpawning = true;
                     StartCoroutine(it_Spawner.SpawnWave());
                 }
-            }            
+            }                
         }
 
         countdown -= Time.deltaTime;

@@ -10,6 +10,7 @@ public class Unit : MonoBehaviour {
 
 	public float startHealth = 100;
 	private float health;
+    private int level;
 
 	public int worth = 50;
 
@@ -55,4 +56,13 @@ public class Unit : MonoBehaviour {
 		Destroy(gameObject);
 	}
 
+    public void SetHealth(float newHealth)
+    {
+        this.health = newHealth;
+    }
+
+    public float GetHealth()
+    {
+        return health;
+    }
 }

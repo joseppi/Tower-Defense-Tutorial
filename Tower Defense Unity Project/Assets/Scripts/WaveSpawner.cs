@@ -32,11 +32,10 @@ public class WaveSpawner : MonoBehaviour {
     }
 
 	public IEnumerator SpawnWave ()
-	{		       
+	{       
         for (int y = 0; y < waves.Count;y++)
         {
             Wave wave = waves[y];
-
             for (int i = 0; i < wave.count; i++)
             {
                 SpawnEnemy(wave.enemy);

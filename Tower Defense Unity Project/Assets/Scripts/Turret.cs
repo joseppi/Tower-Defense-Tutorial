@@ -19,7 +19,7 @@ public class Turret : MonoBehaviour {
     private float fireCountdown = 0f;
 
 	[Header("Use Laser")]
-	public bool useLaser = false;
+	public bool useLaser = false; 
 	
 	public float slowAmount = .5f;
 
@@ -53,7 +53,7 @@ public class Turret : MonoBehaviour {
 		{            
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position); //Get closes enemy
 
-            if (useLaser && distanceToEnemy < range) //Lasers get first enemy in range
+            if (useLaser && distanceToEnemy < range) //Lasers get first enemy in range and stops looking
             {
                 firstEnemyInRange = distanceToEnemy;
                 targetEnemyGO = enemy;
@@ -138,11 +138,11 @@ public class Turret : MonoBehaviour {
         {
             tParam += Time.deltaTime*fireRate;
         }        
-        if (tParam < 0.7f)
+        if (tParam < 0.9f)
         {
             currentDamageOverTime = Mathf.Lerp(0, damage/3, tParam);
         }
-        else if (tParam >= 0.7f)
+        else if (tParam >= 0.9f)
         {
             currentDamageOverTime = Mathf.Lerp(0, damage, tParam);
         }

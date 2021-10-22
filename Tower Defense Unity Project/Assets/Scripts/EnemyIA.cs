@@ -40,8 +40,6 @@ public class EnemyIA : MonoBehaviour
         actions.Add(new Action(turretNodes[12], Action.ActionType.Missile));
         actions.Add(new Action(turretNodes[13], Action.ActionType.Turret));
         actions.Add(new Action(turretNodes[14], Action.ActionType.Laser));
-
-
     }
 
     // Update is called once per frame
@@ -54,6 +52,11 @@ public class EnemyIA : MonoBehaviour
         }        
     }
 
+    void LogBuildState(BuildingBlueprint blueprint)
+    {
+        //Debug.Log("Not enoguh money for " + blueprint.prefab.name.ToString());
+    }
+    
     void RequestAction()
     {                
         foreach (Action action in actions)
@@ -66,7 +69,7 @@ public class EnemyIA : MonoBehaviour
                 case Action.ActionType.BarracksBlue:
                     if (shop.blueEnemyBarracksBuilding.cost > StatsEnemy.Money)
                     {
-                        Debug.Log("Not enoguh money for " + shop.blueBarracksBuilding.prefab.name.ToString());
+                        LogBuildState(shop.blueEnemyBarracksBuilding);                        
                         return;
                     }
                     break;
@@ -74,7 +77,7 @@ public class EnemyIA : MonoBehaviour
                 case Action.ActionType.BarracksRed:
                     if (shop.redEnemyBarracksBuilding.cost > StatsEnemy.Money)
                     {
-                        Debug.Log("Not enoguh money for" + shop.redEnemyBarracksBuilding.prefab.name.ToString());
+                        LogBuildState(shop.redEnemyBarracksBuilding);
                         return;
                     }                    
                     break;
@@ -82,7 +85,7 @@ public class EnemyIA : MonoBehaviour
                 case Action.ActionType.BarracksYellow:
                     if (shop.yellowEnemyBarracksBuilding.cost > StatsEnemy.Money)
                     {
-                        Debug.Log("Not enoguh money for" + shop.yellowEnemyBarracksBuilding.prefab.name.ToString());
+                        LogBuildState(shop.yellowEnemyBarracksBuilding);
                         return;
                     }                    
                     break;
@@ -90,7 +93,7 @@ public class EnemyIA : MonoBehaviour
                 case Action.ActionType.Farm:
                     if (shop.farmEnemyBuilding.cost > StatsEnemy.Money)
                     {
-                        Debug.Log("Not enoguh money for" + shop.farmEnemyBuilding.prefab.name.ToString());
+                        LogBuildState(shop.farmEnemyBuilding);
                         return;
                     }                    
                     break;
@@ -98,7 +101,7 @@ public class EnemyIA : MonoBehaviour
                 case Action.ActionType.Laser:
                     if (shop.laserEnemyBeamer.cost > StatsEnemy.Money)
                     {
-                        Debug.Log("Not enoguh money for" + shop.laserEnemyBeamer.prefab.name.ToString());
+                        LogBuildState(shop.laserEnemyBeamer);
                         return;
                     }                    
                     break;
@@ -106,7 +109,7 @@ public class EnemyIA : MonoBehaviour
                 case Action.ActionType.Missile:
                     if (shop.missileEnemyLauncher.cost > StatsEnemy.Money)
                     {
-                        Debug.Log("Not enoguh money for" + shop.missileEnemyLauncher.prefab.name.ToString());
+                        LogBuildState(shop.missileEnemyLauncher);
                         return;
                     }                    
                     break;
@@ -114,7 +117,7 @@ public class EnemyIA : MonoBehaviour
                 case Action.ActionType.Turret:
                     if (shop.standardEnemyTurret.cost > StatsEnemy.Money)
                     {
-                        Debug.Log("Not enoguh money for" + shop.standardEnemyTurret.prefab.name.ToString());
+                        LogBuildState(shop.standardEnemyTurret);
                         return;
                     }                    
                     break;
@@ -157,7 +160,7 @@ public class EnemyIA : MonoBehaviour
 
     private void BuildBlueprint(Action action, BuildingBlueprint blueprint)
     {
-        Debug.Log("Enemy is trying to build " + blueprint.prefab.name.ToString());
+        //Debug.Log("Enemy is trying to build " + blueprint.prefab.name.ToString());
 
         bool isConstructed = action.node.BuildTurret(blueprint);
         
