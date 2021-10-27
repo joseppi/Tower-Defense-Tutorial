@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class StatsPlayer : MonoBehaviour {
 
@@ -10,7 +11,9 @@ public class StatsPlayer : MonoBehaviour {
 	public int startLives = 5;
 
 	public static int Rounds;
-    public static int UnitsAlive;   
+    public static int UnitsAlive;
+
+    public static List<GameObject> playerBarracks = new List<GameObject>();
 
 	void Start ()
 	{

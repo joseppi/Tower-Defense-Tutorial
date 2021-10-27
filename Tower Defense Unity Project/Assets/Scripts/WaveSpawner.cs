@@ -11,9 +11,13 @@ public class WaveSpawner : MonoBehaviour {
   
     private GameManager gameManager;
 
+    public GameObject canvasSpawner;
+
 	public int waveIndex = 0;
 
     public bool isSpawning = false;    
+
+    public int levelTough = 1;
 
     private void Start()
     {
@@ -21,10 +25,10 @@ public class WaveSpawner : MonoBehaviour {
         gameManager = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<GameManager>();
     }
 
-    void Update ()
-	{
-
-	}
+    private void OnMouseOver()
+    {
+        canvasSpawner.SetActive(true);
+    }
 
     public void AddEntity(Wave wave)
     {
@@ -36,18 +40,37 @@ public class WaveSpawner : MonoBehaviour {
         for (int y = 0; y < waves.Count;y++)
         {
             Wave wave = waves[y];
-            for (int i = 0; i < wave.count; i++)
-            {
-                SpawnEnemy(wave.enemy);
-                yield return new WaitForSeconds(1f / wave.rate);
-            }
-        }        		
-        isSpawning = false;
-	}
+            StartCoroutine(SpawnEachWave(wave)); //This needs optimization.
+            yield return new WaitForSeconds(1f / wave.rate);
+        }            
+        isSpawning = false;        
+    }
 
-	void SpawnEnemy (GameObject enemy)
+    public IEnumerator SpawnEachWave(Wave wave)
+    {
+        for (int i = 0; i < wave.count; i++)
+        {
+            wave.GetUnit().GetComponent<UnitMovement>().SetPath(wave.path);                                    
+            SpawnEnemy(wave);
+            
+            //Debug.Log(wave.GetUnit().GetComponent<UnitMovement>().wayPointsPath);
+            yield return new WaitForSeconds(1f / wave.rate);
+        }
+    }
+
+	void SpawnEnemy (Wave wave)
 	{
-		Instantiate(enemy, spawnPoint.position, spawnPoint.rotation);
+        if (wave.GetUnit().name.Contains("Tough"))
+        {
+            GameObject obj = Instantiate(wave.GetUnit(), spawnPoint.position, spawnPoint.rotation);
+
+            obj.GetComponent<Unit>().level = wave.level;
+            obj.GetComponent<Unit>().UpdateLevelUp();
+        }
+        else
+        {
+            Instantiate(wave.GetUnit(), spawnPoint.position, spawnPoint.rotation);
+        }
 	}
 
 }

@@ -7,25 +7,52 @@ public class UnitMovement : MonoBehaviour {
 
 	private Transform target;
 	private int wavepointIndex = 0;
+    public enum WayPoints
+    {
+        UNDEFINED,
+        MID,
+        LEFT,
+        RIGHT
+    }
+
+    public WayPoints wayPointsPath = WayPoints.UNDEFINED;
 
 	private Unit unit;
-    private NavMeshAgent agent;
 
-	void Start()
+    public void SetPath(WayPoints path)
+    {
+        this.wayPointsPath = path;        
+    }
+
+    void Start()
 	{
 		unit = GetComponent<Unit>();    
         switch (this.tag)
         {
             case "Enemy":
-                target = WaypointsIA.IAPoints[0];
+                target = Waypoints.IAPoints[0];
                 break;
-            case "Friendly":                
-                target = WaypointsPlayer.playerPoints[0];
+            case "Friendly":
+                switch (wayPointsPath)
+                {
+                    case WayPoints.UNDEFINED:
+                        target = Waypoints.playerPointsMid[0];
+                        break;
+                    case WayPoints.MID:
+                        target = Waypoints.playerPointsMid[0];
+                        break;
+                    case WayPoints.LEFT:
+                        target = Waypoints.playerPointsLeft[0];
+                        break;
+                    case WayPoints.RIGHT:
+                        target = Waypoints.playerPointsRight[0];
+                        break;
+                }                
                 break;
-        }            		
-	}
+        }
+    }
 
-	void Update()
+    void Update()
 	{
 		Vector3 dir = target.position - transform.position;
 		transform.Translate(dir.normalized * unit.speed * Time.deltaTime, Space.World);
@@ -39,16 +66,31 @@ public class UnitMovement : MonoBehaviour {
                     break;
         
                 case "Friendly":
-                    GetNextWaypoint(Waypoints.playerPoints);
+                    switch (wayPointsPath)
+                    {
+                        case WayPoints.UNDEFINED:
+                            GetNextWaypoint(Waypoints.playerPointsMid);
+                            break;
+                        case WayPoints.MID:
+                            GetNextWaypoint(Waypoints.playerPointsMid);
+                            break;
+                        case WayPoints.LEFT:
+                            GetNextWaypoint(Waypoints.playerPointsLeft);
+                            break;
+                        case WayPoints.RIGHT:
+                            GetNextWaypoint(Waypoints.playerPointsRight);
+                            break;
+                    }
+                    
                     break;
             }
-			
-		}
-        
-		unit.speed = unit.startSpeed;
-	}
 
-	void GetNextWaypoint(Transform[] points)
+        }
+
+        unit.speed = unit.startSpeed;
+    }
+
+    void GetNextWaypoint(Transform[] points)
 	{
 		if (wavepointIndex >= points.Length - 1)
 		{

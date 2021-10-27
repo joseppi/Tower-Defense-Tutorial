@@ -7,17 +7,14 @@ public class Node : MonoBehaviour {
 	public Color notEnoughMoneyColor;
     public Vector3 positionOffset;
 
-	[HideInInspector]
-	public GameObject building;
-	[HideInInspector]
+	public GameObject building;	
 	public BuildingBlueprint bulidingBlueprint;
-	[HideInInspector]
 	public bool isUpgraded = false;
 
 	private Renderer rend;
 	private Color startColor;
 
-	BuildManager buildManager;
+	private BuildManager buildManager;
 
     public bool isEnemyNode = false;
 
@@ -27,6 +24,8 @@ public class Node : MonoBehaviour {
 		startColor = rend.material.color;
 
 		buildManager = BuildManager.instance;
+
+
     }
 
 	public Vector3 GetBuildPosition ()
@@ -37,7 +36,7 @@ public class Node : MonoBehaviour {
 	void OnMouseDown ()
 	{
         if (this.isEnemyNode)
-            return; 
+            return;         
 
 		if (EventSystem.current.IsPointerOverGameObject())
 			return;
@@ -53,6 +52,26 @@ public class Node : MonoBehaviour {
 
 		BuildTurret(buildManager.GetTurretToBuild());
 	}
+
+    public void HardBuildNode()
+    {
+        if (this.isEnemyNode)
+            return;
+
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
+        if (building != null)
+        {
+            buildManager.SelectNode(this);
+            return;
+        }
+
+        if (!buildManager.CanBuild)
+            return;
+
+        BuildTurret(buildManager.GetTurretToBuild());
+    }
 
 	public bool BuildTurret (BuildingBlueprint blueprint)
 	{
@@ -83,13 +102,13 @@ public class Node : MonoBehaviour {
 
 		bulidingBlueprint = blueprint;
 
-		GameObject effect = (GameObject)Instantiate(buildManager.buildEffect, GetBuildPosition(), Quaternion.identity);
+        GameObject effect = (GameObject)Instantiate(BuildManager.instance.buildEffect, GetBuildPosition(), Quaternion.identity);
 		Destroy(effect, 5f);
 
         return true;
 	}
 
-	public void UpgradeTurret ()
+	public void UpgradeTurret()
 	{
 		if (StatsPlayer.Money < bulidingBlueprint.upgradeCost)
 		{
@@ -99,18 +118,24 @@ public class Node : MonoBehaviour {
 
 		StatsPlayer.Money -= bulidingBlueprint.upgradeCost;
 
-		//Get rid of the old building
-		Destroy(building);
+        PlayerBarracks buildingComponent = null;
+        if (building.TryGetComponent(out buildingComponent))
+        {
+            buildingComponent.level++;
+        }
 
-		//Build a new one
-		GameObject _building = (GameObject)Instantiate(bulidingBlueprint.upgradedPrefab, GetBuildPosition(), Quaternion.identity);
-		building = _building;
-
-		GameObject effect = (GameObject)Instantiate(buildManager.buildEffect, GetBuildPosition(), Quaternion.identity);
-		Destroy(effect, 5f);
-
-		isUpgraded = true;
-
+		////Get rid of the old building
+		//Destroy(building);
+        //
+		////Build a new one
+		//GameObject _building = (GameObject)Instantiate(bulidingBlueprint.upgradedPrefab, GetBuildPosition(), Quaternion.identity);
+		//building = _building;
+        //
+		//GameObject effect = (GameObject)Instantiate(BuildManager.instance.buildEffect, GetBuildPosition(), Quaternion.identity);
+		//Destroy(effect, 5f);
+        //
+		//isUpgraded = true;
+        
 		Debug.Log("Turret upgraded!");
 	}
 

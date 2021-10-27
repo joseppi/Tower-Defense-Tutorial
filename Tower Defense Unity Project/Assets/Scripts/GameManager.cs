@@ -14,13 +14,20 @@ public class GameManager : MonoBehaviour {
     GameObject[] spawners;
     int currentRound = -1;
     public static float totalMatchTime = 0;
+    public Node farmNode;
+    public Node barracksNode;
 
     void Start ()
 	{
+        Shop shop = GameObject.Find("Shop").GetComponent<Shop>();
 		GameIsOver = false;
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
         countdown = timeBetweenWaves;
         Time.timeScale = 4.0f;
+
+        //Hardcoding Player buildings
+        farmNode.BuildTurret(shop.farmBuilding);
+        barracksNode.BuildTurret(shop.redBarracksBuilding);
     }
 
 	// Update is called once per frame
@@ -40,21 +47,24 @@ public class GameManager : MonoBehaviour {
 
         totalMatchTime += Time.deltaTime;
 
-        if (currentRound != StatsPlayer.Rounds && countdown <= .0f)
+        if (currentRound != StatsPlayer.Rounds && countdown <= .0f) // Start Next Round
         {
+            for (int i = 0; i < spawners.Length;i++) //Remove previous waves. This is done like this because its easier to switch to pervious style if needed. Not optimal
+            {                
+                spawners[i].GetComponent<WaveSpawner>().waves.Clear();
+            }
+
             GameObject[] enemyBarracks = GameObject.FindGameObjectsWithTag("EnemyBarracks");
             for(int i = 0; i < enemyBarracks.Length; i++)
             {
-                enemyBarracks[i].GetComponent<EnemyBarracks>().AddEnemies();
-                
+                enemyBarracks[i].GetComponent<EnemyBarracks>().AddEnemies();                
             }
 
             GameObject[] playerBarracks = GameObject.FindGameObjectsWithTag("PlayerBarracks");
             for (int i = 0; i < playerBarracks.Length; i++)
             {
-                playerBarracks[i].GetComponent<PlayerBarracks>().farmWave.rate += 0.05f;
-                playerBarracks[i].GetComponent<PlayerBarracks>().AddFriendlies();
-                
+                //playerBarracks[i].GetComponent<PlayerBarracks>().farmWave.rate += 0.05f; //OBSCURE SHIT CAUSE I SUCK AT DESIGN                                
+                playerBarracks[i].GetComponent<PlayerBarracks>().AddFriendlies();                
             }
             currentRound = StatsPlayer.Rounds;
         }
@@ -73,7 +83,7 @@ public class GameManager : MonoBehaviour {
         {            
             for (int i = 0; i < spawners.Length; i++)
             {
-                WaveSpawner it_Spawner = spawners[i].GetComponent<WaveSpawner>();
+                WaveSpawner it_Spawner = spawners[i].GetComponent<WaveSpawner>();                
                 if (it_Spawner.isSpawning == false)
                 {
                     it_Spawner.isSpawning = true;

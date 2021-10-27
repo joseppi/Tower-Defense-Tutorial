@@ -9,8 +9,9 @@ public class Unit : MonoBehaviour {
 	public float speed;
 
 	public float startHealth = 100;
-	private float health;
-    private int level;
+	public float health;
+    private float bonusHealthHP = 0;
+    public int level = 1;    
 
 	public int worth = 50;
 
@@ -24,10 +25,21 @@ public class Unit : MonoBehaviour {
 	void Start ()
 	{
 		speed = startSpeed;
-		health = startHealth;
-	}
+		health = startHealth + bonusHealthHP;        
+    }
 
-	public void TakeDamage (float amount)
+    public void UpdateLevelUp()
+    {
+        bonusHealthHP = startHealth * level * 0.10f;
+        this.Start();
+    }
+
+    public void FixedUpdate()
+    {
+        
+    }    
+
+    public void TakeDamage (float amount)
 	{        
 		health -= amount;
 
