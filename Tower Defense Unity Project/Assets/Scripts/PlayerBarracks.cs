@@ -32,7 +32,7 @@ public class PlayerBarracks : MonoBehaviour
                 farmWave.SetUnitPrefab(Resources.Load("Player/PlayerUnits/Tough/Friendly_Tough") as GameObject);                
                 break;
             case EnemyType.TOUGH:
-                farmWave.SetUnitPrefab(Resources.Load("Player/PlayerUnits/Tough/Friendly_Tough_Variant") as GameObject);
+                farmWave.SetUnitPrefab(Resources.Load("Player/PlayerUnits/Tough/Friendly_Tough") as GameObject);
                 break;
             case EnemyType.FAST:
                 farmWave.SetUnitPrefab(Resources.Load("Player/PlayerUnits/Fast/Friendly_Fast") as GameObject);
@@ -54,7 +54,7 @@ public class PlayerBarracks : MonoBehaviour
                 WaveSpawner it_Spawner = spawners[i].GetComponent<WaveSpawner>();
                 farmWave.path = this.path;
                 farmWave.level = this.level;
-                it_Spawner.AddEntity(farmWave);                
+                it_Spawner.AddEntity(farmWave); 
             }
         }
     }    

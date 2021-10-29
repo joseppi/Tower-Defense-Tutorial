@@ -15,9 +15,7 @@ public class WaveSpawner : MonoBehaviour {
 
 	public int waveIndex = 0;
 
-    public bool isSpawning = false;    
-
-    public int levelTough = 1;
+    public bool isSpawning = false;       
 
     private void Start()
     {
@@ -60,17 +58,9 @@ public class WaveSpawner : MonoBehaviour {
 
 	void SpawnEnemy (Wave wave)
 	{
-        if (wave.GetUnit().name.Contains("Tough"))
-        {
-            GameObject obj = Instantiate(wave.GetUnit(), spawnPoint.position, spawnPoint.rotation);
-
-            obj.GetComponent<Unit>().level = wave.level;
-            obj.GetComponent<Unit>().UpdateLevelUp();
-        }
-        else
-        {
-            Instantiate(wave.GetUnit(), spawnPoint.position, spawnPoint.rotation);
-        }
+        GameObject obj = Instantiate(wave.GetUnit(), spawnPoint.position, spawnPoint.rotation);
+        obj.GetComponent<Unit>().level = wave.level;
+        obj.GetComponent<Unit>().UpdateLevelUp();
 	}
 
 }

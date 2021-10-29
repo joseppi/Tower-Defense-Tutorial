@@ -52,15 +52,13 @@ public class SpawnerUnitDisplay : MonoBehaviour
                 redBarracksUI.GetComponent<UnitDisplayElement>().barracksIndex = i;
                 uiElementList.Add(redBarracksUI);
             }
-            if (StatsPlayer.playerBarracks[i].GetComponent<PlayerBarracks>().farmWave.GetUnit().name.Contains("Simple"))
+            else if (StatsPlayer.playerBarracks[i].GetComponent<PlayerBarracks>().farmWave.GetUnit().name.Contains("Simple"))
             {
                 GameObject instance = Instantiate<GameObject>(blueBarracksUI, this.gameObject.transform);
-                blueBarracksUI.GetComponent<UnitDisplayElement>().barracksIndex = i;
-                //Debug.Log(i.ToString());
-                //Debug.Log(StatsPlayer.playerBarracks[i].GetComponent<PlayerBarracks>().GetInstanceID().ToString());
+                blueBarracksUI.GetComponent<UnitDisplayElement>().barracksIndex = i;                
                 uiElementList.Add(blueBarracksUI);
             }
-            if (StatsPlayer.playerBarracks[i].GetComponent<PlayerBarracks>().farmWave.GetUnit().name.Contains("Fast"))
+            else if (StatsPlayer.playerBarracks[i].GetComponent<PlayerBarracks>().farmWave.GetUnit().name.Contains("Fast"))
             {
                 GameObject instance = Instantiate<GameObject>(yellowBarracksUI, this.gameObject.transform);
                 yellowBarracksUI.GetComponent<UnitDisplayElement>().barracksIndex = i;

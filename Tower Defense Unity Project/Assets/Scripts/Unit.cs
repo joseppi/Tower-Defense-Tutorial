@@ -10,7 +10,7 @@ public class Unit : MonoBehaviour {
 
 	public float startHealth = 100;
 	public float health;
-    private float bonusHealthHP = 0;
+    float bonusHealthHP = 0;
     public int level = 1;    
 
 	public int worth = 50;
@@ -30,7 +30,7 @@ public class Unit : MonoBehaviour {
 
     public void UpdateLevelUp()
     {
-        bonusHealthHP = startHealth * level * 0.10f;
+        bonusHealthHP = startHealth * level * 0.20f;
         this.Start();
     }
 

@@ -7,18 +7,15 @@ public class UnitDisplayElement : MonoBehaviour
 {
     public PlayerBarracks barrack;
     public int barracksIndex = -1;
+    public int currentRound = 0;
 
     private void Start()
     {
-
-    }
-
-    public void Update()
-    {         
         if (barracksIndex != -1 && barrack == null)
         {
             barrack = StatsPlayer.playerBarracks[barracksIndex].GetComponent<PlayerBarracks>();
-        }      
+            currentRound = StatsPlayer.Rounds;
+        }
     }
         
     public void SetUnitWaypointsLeft()
