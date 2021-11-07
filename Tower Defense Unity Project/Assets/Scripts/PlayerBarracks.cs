@@ -29,16 +29,16 @@ public class PlayerBarracks : MonoBehaviour
         switch (enemyType)
         {
             case EnemyType.UNDEFINED:
-                farmWave.SetUnitPrefab(Resources.Load("Player/PlayerUnits/Tough/Friendly_Tough") as GameObject);                
+                farmWave.SetUnitPrefab(Resources.Load("Player/PlayerUnits/Friendly_Tough") as GameObject);                
                 break;
             case EnemyType.TOUGH:
-                farmWave.SetUnitPrefab(Resources.Load("Player/PlayerUnits/Tough/Friendly_Tough") as GameObject);
+                farmWave.SetUnitPrefab(Resources.Load("Player/PlayerUnits/Friendly_Tough") as GameObject);
                 break;
             case EnemyType.FAST:
-                farmWave.SetUnitPrefab(Resources.Load("Player/PlayerUnits/Fast/Friendly_Fast") as GameObject);
+                farmWave.SetUnitPrefab(Resources.Load("Player/PlayerUnits/Friendly_Fast") as GameObject);
                 break;
             case EnemyType.SIMPLE:
-                farmWave.SetUnitPrefab(Resources.Load("Player/PlayerUnits/Simple/Friendly_Simple") as GameObject);                
+                farmWave.SetUnitPrefab(Resources.Load("Player/PlayerUnits/Friendly_Simple") as GameObject);                
                 break;
         }        
     }
